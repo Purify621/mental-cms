@@ -8,7 +8,9 @@ const getDefaultState = () => {
     token: '',
     name: '',
     avatar: '',
-    school: ''
+    school: '',
+    id: '',
+    role: ''
   }
 }
 
@@ -29,6 +31,12 @@ const mutations = {
   },
   SET_SCHOOL: (state, school) => {
     state.school = school
+  },
+  SET_ID: (state, id) => {
+    state.id = id
+  },
+  SET_ROLE: (state, role) => {
+    state.role = role
   }
 }
 
@@ -39,8 +47,10 @@ const actions = {
       adminLogin(userInfo).then(res => {
         // 存储当前用户的 token , token 有效期为24小时
         commit('SET_NAME', 'admin')
+        commit('SET_ID', res.data.user.id) // 设置id
         commit('SET_AVATAR', res.data.user.avatar) // 设置头像
-        // commit('SET_SCHOOL', res.data.user.school) // 设置学校
+        commit('SET_SCHOOL', res.data.user.school) // 设置学校
+        commit('SET_ROLE', res.data.user.role) // 设置身份
         // 设置token的方法,存储token到cookie中
         setToken(res.data.token)
         // 存储token到vuex中
@@ -70,7 +80,14 @@ const actions = {
       teacherLogin(userInfo).then(res => {
         commit('SET_TOKEN', res.data)
         commit('SET_NAME', 'teacher')
+        commit('SET_ID', res.data.user.tid) // 设置id
+        commit('SET_AVATAR', res.data.user.avatar) // 设置头像
+        commit('SET_SCHOOL', res.data.user.school) // 设置学校
+        commit('SET_ROLE', res.data.user.role) // 设置身份
+        // 设置token的方法, 存储token到cookie中
         setToken(res.data)
+        // 存储token到vuex中
+        commit('SET_TOKEN', res.data.token)
         resolve('登录成功') // 返回提示信息
       }).catch(() => {
         reject('用户名或密码错误') // 返回提示信息

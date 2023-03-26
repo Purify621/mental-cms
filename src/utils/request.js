@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 
 // 创建一个axios实例
 const service = axios.create({
@@ -18,7 +18,9 @@ service.interceptors.request.use(
     if (store.getters.token) {
       // ['X-Token'] 是自定义头键，根据具体请求修改
       // 每次请求先携带token
-      config.headers['token'] = getToken()
+      config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+      // 拿到vuex中的token
+      config.headers['token'] = store.state.user.token
     }
     return config
   },

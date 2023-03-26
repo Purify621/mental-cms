@@ -103,3 +103,29 @@ export function getInfo(username) {
     }
   ))
 }
+
+/**
+ * 根据id获取管理员信息
+ * @param {} id
+ * @returns
+ */
+export const getInfoId = (id) => {
+  return request({
+    url: `/admin/${id}`,
+    method: 'get'
+  })
+}
+
+/**
+ * 修改管理员信息
+ * @param {} adminInfo 传入管理员对象
+ * @returns
+ */
+export const updateAdminInfo = (adminInfo) => {
+  return request({
+    url: '/admin/update',
+    method: 'post',
+    data: adminInfo
+  })
+}
+

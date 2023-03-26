@@ -52,7 +52,7 @@
           />
         </el-form-item>
         <el-form-item label="文章类型">
-          <el-select v-model="formInline.classification" placeholder="请选择">
+          <el-select v-model="formInline.type" placeholder="请选择">
             <el-option
               v-for="(item,index) in options"
               :key="index"
@@ -173,7 +173,7 @@ export default {
       formInline: {
         title: '',
         time: '',
-        classification: ''
+        type: ''
       },
       // 滑块状态
       sValue: true,
@@ -185,7 +185,6 @@ export default {
       },
       options: [
         { value: '心理科普' },
-        { value: '中心动态' },
         { value: '前沿进展' }
       ]
     }
@@ -212,7 +211,7 @@ export default {
       this.article.data = this.r_html
       this.article.title = this.formInline.title
       this.article.date = this.formInline.time
-      this.article.classification = this.formInline.classification
+      this.article.type = this.formInline.type
       addPopularScience(this.article).then(res => {
         this.$message({
           message: '添加成功',
