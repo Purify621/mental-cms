@@ -46,6 +46,16 @@ const routesMaps = {
       ]
     },
     {
+      path: '/Announcement',
+      children: [
+        {
+          path: 'add'
+        }, {
+          path: 'edit'
+        }
+      ]
+    },
+    {
       path: '/',
       children: [
         {

@@ -41,7 +41,7 @@
         </span>
       </el-form-item>
 
-      <el-radio-group v-model="radio">
+      <el-radio-group v-model="radio" @change="radioChange">
         <el-radio :label="1">管理员</el-radio>
         <el-radio :label="2">教师</el-radio>
       </el-radio-group>
@@ -100,6 +100,16 @@ export default {
     }
   },
   methods: {
+    // 单选按钮选择改变
+    radioChange() {
+      if (this.radio === 1) {
+        this.loginForm.username = 'admin'
+        this.loginForm.password = 'admin'
+      } else if (this.radio === 2) {
+        this.loginForm.username = 'teacher'
+        this.loginForm.password = 'teacher'
+      }
+    },
     // 密码显示隐藏切换
     showPwd() {
       if (this.passwordType === 'password') {

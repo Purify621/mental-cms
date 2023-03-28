@@ -1,18 +1,6 @@
 <template>
   <!-- 管理科普文章 -->
   <div class="EditPopularScience-container">
-    <el-row>
-      <el-col :span="4">
-        <el-select v-model="queryList.type" size="medium" clearable placeholder="请选择" @change="typeChange()">
-          <el-option
-            v-for="(item,index) in options"
-            :key="index"
-            :label="item.value"
-            :value="item.value"
-          />
-        </el-select>
-      </el-col>
-    </el-row>
     <!-- 表格组件 -->
     <el-table
       :data="tableData"
@@ -71,7 +59,7 @@
   </div>
 </template>
 <script>
-import { deleteArticleId, getArticlePageQuery } from '@/api/Popularscience'
+import { getPageQuery, deleteById } from '@/api/announcement'
 export default {
   name: 'EditPopularScience',
   components: {
@@ -86,12 +74,8 @@ export default {
       tableData: [], // 表格数据
       value: true,
       deleteId: 0, // 要删除的元素id
-      queryList: { currentPage: 1, pageSize: 10, type: '' }, // 分页查询
-      total: 0,
-      options: [
-        { value: '心理科普' },
-        { value: '前沿进展' }
-      ]
+      queryList: { currentPage: 1, pageSize: 10 }, // 分页查询
+      total: 0
     }
   },
   computed: {
@@ -103,7 +87,7 @@ export default {
   methods: {
     getData() {
       // 分页查询
-      getArticlePageQuery(this.queryList).then(res => {
+      getPageQuery(this.queryList).then(res => {
         this.tableData = res.data.data
         this.tableData.forEach(item => {
           item.date = item.date.slice(0, 10)
@@ -131,7 +115,7 @@ export default {
     },
     // 确定删除操作
     Delete() {
-      deleteArticleId(this.deleteId).then(res => {
+      deleteById(this.deleteId).then(res => {
         if (res.code === 200) {
           // 重新获取数据
           this.getData()
@@ -140,7 +124,6 @@ export default {
             message: '删除成功'
           })
         }
-        this.getData()
       })
     }
   }

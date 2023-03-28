@@ -1,18 +1,6 @@
 import request from '@/utils/request'
 
 /**
- * 获取所有题库
- * @param {}
- * @returns
- */
-export function getQuesionBankAll() {
-  return request({
-    url: '/questionBank/all',
-    method: 'get',
-    params: { status: 1 }
-  })
-}
-/**
  * 查询所有试题信息
  * @returns
  */
@@ -22,6 +10,19 @@ export function questionStatus() {
     method: 'get'
   })
 }
+/**
+ * 分页查询
+ * @param {*} queryList 分页查询对象
+ * @returns
+ */
+export function getQuestionPageQuery(queryList) {
+  return request({
+    url: '/questionBank/pageQuery',
+    method: 'get',
+    params: queryList
+  })
+}
+
 /**
  * 根据id修改题库状态
  * @param {} id 试题id
@@ -34,4 +35,38 @@ export function updateQuestionStatus(id) {
     params: { id: id }
   })
 }
+/**
+ * 上传题库
+ * @param {} data
+ * @returns
+ */
+export function uploadQuestion(data) {
+  return request({
+    url: '/questionBank/upload',
+    method: 'post',
+    data
+  })
+}
+/**
+ *
+ * @returns 题库下载
+ */
+export function downloadQuestion() {
+  return request({
+    url: '/questionBank/download',
+    method: 'get'
+  })
+}
 
+/**
+ * 获取所有题库 已弃用
+ * @param {}
+ * @returns
+ */
+/* export function getQuesionBankAll() {
+  return request({
+    url: '/questionBank/all',
+    method: 'get',
+    params: { status: 1 }
+  })
+} */

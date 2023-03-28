@@ -20,7 +20,7 @@
               <svg :class="status === 0 ? '' : 'moreError'" t="1675063616832" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3314" width="24" height="24"><path d="M512 704c35.2 0 64 28.8 64 64s-28.8 64-64 64-64-28.8-64-64 28.8-64 64-64z m-64-192c0 35.2 28.8 64 64 64s64-28.8 64-64-28.8-64-64-64-64 28.8-64 64z m0-256c0 35.2 28.8 64 64 64s64-28.8 64-64-28.8-64-64-64-64 28.8-64 64z" p-id="3315" /></svg>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>删除</el-dropdown-item>
+              <el-dropdown-item @click="deleteQuestion">删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -78,6 +78,10 @@ export default {
     handleSwitch() {
       // 通知父组件进行相关操作
       this.$emit('hswitch', this.id)
+    },
+    // 删除试题
+    deleteQuestion() {
+      // 删除操作
     }
   }
 }

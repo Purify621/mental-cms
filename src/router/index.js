@@ -82,7 +82,6 @@ export const asyncRoutes = [
   {
     path: '/Popularscience',
     component: Layout,
-    // redirect: '/Popularscience',
     meta: { title: '心理健康知识科普', icon: 'mentalpopularscience' },
     children: [
       {
@@ -100,15 +99,23 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/Announcement',
     component: Layout,
-    redirect: '/announcement',
-    children: [{
-      path: 'announcement',
-      name: 'AnnouncementPage',
-      component: () => import('@/views/admin/AnnouncementPage'),
-      meta: { title: '发布公告管理', icon: 'announcement' }
-    }]
+    meta: { title: '公告管理', icon: 'announcement' },
+    children: [
+      {
+        path: 'add',
+        name: 'AddAnnouncement',
+        component: () => import('@/views/admin/Announcement/AddAnnouncement'),
+        meta: { title: '添加公告', icon: 'announcement' }
+      },
+      {
+        path: 'edit',
+        name: 'EditAnnouncement',
+        component: () => import('@/views/admin/Announcement/EditAnnouncement'),
+        meta: { title: '管理公告', icon: 'announcement' }
+      }
+    ]
   },
   {
     path: '/',
