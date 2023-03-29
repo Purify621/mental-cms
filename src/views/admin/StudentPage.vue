@@ -30,7 +30,7 @@
     <el-table
       :data="tableData"
       stripe
-      style="width: 100%"
+      style="width: 100%; height: 73vh;"
       @selection-change="handleSelectionChange"
     >
       <el-table-column

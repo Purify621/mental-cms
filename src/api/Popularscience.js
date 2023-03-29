@@ -13,6 +13,19 @@ export function addPopularScience(data) {
   })
 }
 /**
+ * 更新科普文章操作
+ * @param {} data
+ * @returns
+ */
+export function updateArticle(data) {
+  return request({
+    url: '/article/update',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 分页查询
  * @param {} queryList
  * @returns

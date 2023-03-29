@@ -17,7 +17,7 @@
     <el-table
       :data="tableData"
       stripe
-      style="width: 100%;"
+      style="width: 100%; height:76vh;"
     >
       <el-table-column
         width="550"
@@ -41,7 +41,7 @@
           <el-button
             class="operationButton"
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="handleEdit(scope.row)"
           >编辑</el-button>
           <!-- 删除提示 onConfirm 点击确认按钮时触发 onCancel 点击取消按钮时触发 -->
           <el-popconfirm
@@ -68,10 +68,43 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    <el-dialog title="管理公告" width="35%" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="标题" :label-width="formLabelWidth">
+          <el-input v-model="form.title" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="类型" :label-width="formLabelWidth">
+          <el-select v-model="form.type" size="medium" placeholder="请选择" @change="typeChange()">
+            <el-option
+              v-for="(item,index) in options"
+              :key="index"
+              :label="item.value"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="时间" :label-width="formLabelWidth">
+          <el-input v-model="form.date" disabled autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="状态" :label-width="formLabelWidth">
+          <el-switch
+            v-model="form.status"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            :active-value="1"
+            :inactive-value="0"
+          />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button type="primary" @click="confirmDialog">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { deleteArticleId, getArticlePageQuery } from '@/api/Popularscience'
+import { deleteArticleId, getArticlePageQuery, updateArticle } from '@/api/Popularscience'
 export default {
   name: 'EditPopularScience',
   components: {
@@ -91,7 +124,16 @@ export default {
       options: [
         { value: '心理科普' },
         { value: '前沿进展' }
-      ]
+      ],
+      dialogFormVisible: false,
+      form: {
+        id: 0,
+        title: '',
+        type: '',
+        date: '',
+        status: 1
+      },
+      formLabelWidth: '80px'
     }
   },
   computed: {
@@ -112,8 +154,36 @@ export default {
       })
     },
     // 编辑按钮
-    handleEdit() {
-
+    handleEdit(row) {
+      this.form.id = row.id
+      this.form.title = row.title
+      this.form.type = row.type
+      this.form.date = row.date
+      this.form.status = row.status
+      // 显示编辑弹出层
+      this.dialogFormVisible = true
+    },
+    // 取消操作
+    closeDialog() {
+      this.dialogFormVisible = false
+      this.form = {
+        id: 0,
+        title: '',
+        type: '',
+        date: '',
+        status: 0
+      }
+    },
+    // 确定操作
+    confirmDialog() {
+      updateArticle(this.form).then(res => {
+        this.$message({
+          type: 'success',
+          message: '更新成功'
+        })
+        this.dialogFormVisible = false
+        this.getData()
+      })
     },
     // 查询改变的时候
     typeChange() {

@@ -36,6 +36,29 @@ export function getAll() {
   })
 }
 /**
+ * 根据id查找当前信息
+ * @param {} id
+ * @returns
+ */
+export function getById(id) {
+  return request({
+    url: `/announcement/${id}`,
+    method: 'get'
+  })
+}
+/**
+ * 更新操作
+ * @param {} data
+ * @returns
+ */
+export function update(data) {
+  return request({
+    url: '/announcement/update',
+    method: 'post',
+    data
+  })
+}
+/**
  * 根据id删除当前公告
  * @param {} id
  * @returns

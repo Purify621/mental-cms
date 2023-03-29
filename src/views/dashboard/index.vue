@@ -14,27 +14,24 @@
     <!-- 公告弹出层 -->
     <el-dialog title="公告" :visible.sync="dialogVisible" width="30%">
       <span v-html="content" />
-      <!-- <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="dialogVisible = false"
-        >确 定</el-button>
-      </span> -->
+      <span slot="footer" class="dialog-footer">
+        <span>当前公告浏览人数 {{ total }}</span>
+      </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { getAll } from '@/api/announcement'
+import { getAll, getById } from '@/api/announcement'
 export default {
   name: 'Dashboard',
   data() {
     return {
       dialogVisible: false, // 控制弹出层
       data: [], // 公告数据
-      content: '' // 要渲染的文本内容
+      content: '', // 要渲染的文本内容
+      total: 0 // 公告浏览人数
     }
   },
   computed: {
@@ -52,8 +49,11 @@ export default {
     },
     // 打开弹出层
     openDialog(id) {
-      const index = this.data.findIndex(item => item.id === id)
-      this.content = this.data[index].data
+      // 根据id查询当前公告信息
+      getById(id).then(res => {
+        this.content = res.data.data
+        this.total = res.data.total
+      })
       this.dialogVisible = true
     }
   }

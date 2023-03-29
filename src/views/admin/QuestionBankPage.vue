@@ -17,7 +17,7 @@
 
     <!-- <el-button size="small" type="text" plain @click="downloadTemplate">上传试题</el-button> -->
     <!-- <el-button icon="el-icon-circle-plus-outline" size="small" plain @click="addTestQuestion">新建试题</el-button> -->
-    <el-container>
+    <el-container style="height:75vh;">
       <!-- 题库展示卡片 -->
       <el-row :gutter="24">
         <el-col v-for="item in questionBankInfo" :key="item.id" :span="6">
@@ -57,7 +57,7 @@ export default {
       // 弹出层内容
       questionBankInfoDialog: { 'id': 0, 'title': '', 'details': '', 'number': 0, 'status': 0 },
       total: 10,
-      queryList: { currentPage: 1, pageSize: 10 },
+      queryList: { currentPage: 1, pageSize: 8 },
       fileList: [] // 上传文件的列表
     }
   },
@@ -104,8 +104,9 @@ export default {
       })
     },
     // 分页组件改变时执行的操作
-    handleCurrentChange() {
-
+    handleCurrentChange(val) {
+      this.queryList.currentPage = val
+      this.getData()
     },
     // 添加试题
     addTestQuestion() {
