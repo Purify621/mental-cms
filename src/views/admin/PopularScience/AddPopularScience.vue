@@ -213,6 +213,11 @@ export default {
       this.article.date = this.formInline.time
       this.article.type = this.formInline.type
       addPopularScience(this.article).then(res => {
+        // 添加成功后恢复为未添加之前的状态
+        this.r_html = ''
+        this.formInline.title = ''
+        this.formInline.time = ''
+        this.formInline.type = ''
         this.$message({
           message: '添加成功',
           type: 'successs'

@@ -200,6 +200,10 @@ export default {
       this.announcement.date = this.formInline.time
       this.announcement.status = this.sValue === true ? 1 : 0
       addAnnouncement(this.announcement).then(res => {
+        // 清空为添加前的状态
+        this.r_html = ''
+        this.formInline.title = ''
+        this.formInline.time = ''
         this.$message({
           message: '添加成功',
           type: 'successs'
