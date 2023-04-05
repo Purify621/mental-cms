@@ -14,19 +14,41 @@
       </el-upload>
       <el-button class="textbutton" size="small" type="text" plain @click="downloadTemplate">下载模板</el-button>
     </div>
-
-    <!-- <el-button size="small" type="text" plain @click="downloadTemplate">上传试题</el-button> -->
-    <!-- <el-button icon="el-icon-circle-plus-outline" size="small" plain @click="addTestQuestion">新建试题</el-button> -->
-    <el-container style="height:75vh;">
+    <el-container class="card_container" style="height:75vh;">
       <!-- 题库展示卡片 -->
-      <el-row :gutter="24">
-        <el-col v-for="item in questionBankInfo" :key="item.id" :span="6">
-          <questionBankCard :id="item.id" :logo="item.picturebox" :title="item.title" :details="item.details" :status="item.status" @hswitch="hswitch" />
-        </el-col>
-      </el-row>
+      <div v-for="item in questionBankInfo" :key="item.id" style="width:24%; height: 45%;">
+        <el-card style="margin:10px 10px 10px 10px">
+          <div slot="header" class="clearfix">
+            <span>{{ item.title }}</span>
+            <el-dropdown style="float:right">
+              <span class="el-dropdown-link" style="cursor: pointer;">
+                操作<i class="el-icon-arrow-down el-icon--right" />
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item icon="el-icon-delete" @click.native="deleteQuestion(item.id)">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <div class="text">
+            <div class="top">
+              <img :src="item.picturebox" alt="">
+              <el-tooltip :content="'是否启用'" placement="left" effect="light">
+                <el-switch
+                  v-model="item.status"
+                  class="statusTitle"
+                  @change="hswitch(item.id)"
+                />
+              </el-tooltip>
+            </div>
+            <div class="content">
+              {{ item.details }}
+            </div>
+          </div>
+        </el-card>
+      </div>
+
     </el-container>
     <!-- 弹出层 -->
-    <questionDialog ref="child" title="新建试题" :question-info="questionBankInfoDialog" />
     <!-- 分页组件 -->
     <div class="block pagination">
       <el-pagination
@@ -41,14 +63,10 @@
   </div>
 </template>
 <script>
-import questionBankCard from '@/components/questionBankCard'
-import questionDialog from '@/components/questionDialog'
-import { updateQuestionStatus, downloadQuestion, getQuestionPageQuery, uploadQuestion } from '@/api/questionbank'
+import { updateQuestionStatus, downloadQuestion, getQuestionPageQuery, uploadQuestion, deleteQuestion } from '@/api/questionbank'
 export default {
   name: 'QuestionBankPage',
   components: {
-    questionBankCard,
-    questionDialog
   },
   data() {
     return {
@@ -61,14 +79,7 @@ export default {
       fileList: [] // 上传文件的列表
     }
   },
-  computed: {
-
-  },
-  watch: {
-
-  },
   created() {
-    // this.getquestionBankAll()
     this.getData()
   },
   methods: {
@@ -120,6 +131,14 @@ export default {
       getQuestionPageQuery(this.queryList).then(res => {
         if (res.code === 200) {
           this.questionBankInfo = res.data.data
+          // 将状态值转换为布尔值
+          this.questionBankInfo.forEach(item => {
+            if (item.status === 1) {
+              item.status = false
+            } else {
+              item.status = true
+            }
+          })
           this.total = res.data.total
         }
       })
@@ -168,15 +187,32 @@ export default {
           console.error('下载失败', error)
         })
       })
-    }
-    // 获取题库信息 已弃用
-    /* getquestionBankAll() {
-      getQuesionBankAll().then(res => {
-        if (res.code === 200) {
-          this.questionBankInfo = res.data
-        }
+    },
+    // 删除试题
+    deleteQuestion(id) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送请求删除试题
+        deleteQuestion(id).then(res => {
+          if (res.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            // 重新获取列表数据
+            this.getData()
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
-    }, */
+    }
   }
 }
 </script>
@@ -184,10 +220,41 @@ export default {
 .questionBank-container{
   background-color: white !important;
 }
-.el-container{
-  margin-top: 20px;
+// 试题卡片的样式
+.card_container{
   height: 490px;
   overflow: hidden;
+  flex-wrap: wrap;  // 超出父容器自动换行
+  .text{
+    .top{
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+      img{
+        border-radius: 10px;
+        width: 60px;
+        height: 60px;
+      }
+      .statusTitle{
+        display: block;
+        width: 62px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 12px;
+      }
+    }
+    .content{
+      height: 60px;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;  // 超出两行显示省略号
+      overflow: hidden;
+      font-size: 14px;
+    }
+  }
 }
 .questionBank{
   &-container {

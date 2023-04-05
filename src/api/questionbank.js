@@ -70,3 +70,13 @@ export function downloadQuestion() {
     params: { status: 1 }
   })
 } */
+
+/**
+ * 根据id删除题库
+ */
+export function deleteQuestion(id) {
+  return request({
+    url: `/questionBank/${id}`,
+    method: 'delete'
+  })
+}

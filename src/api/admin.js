@@ -69,6 +69,22 @@ const routesMaps = {
       path: '/',
       children: [
         {
+          path: 'student'
+        }
+      ]
+    },
+    {
+      path: '/',
+      children: [
+        {
+          path: 'quesionbank'
+        }
+      ]
+    },
+    {
+      path: '/',
+      children: [
+        {
           path: 'result'
         }
       ]

@@ -98,8 +98,7 @@ export default {
     }
   }
 }
-</style>
-<style>
+// 卡片区域
 .box-card {
   height: 400px;
   overflow-y: scroll;
