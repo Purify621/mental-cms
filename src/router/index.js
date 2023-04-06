@@ -13,13 +13,6 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
   {
     path: '/',
     component: Layout,
@@ -30,6 +23,12 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
+  },
+  // 404 页必须放在末尾 !!!
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
   }
 ]
 
@@ -150,6 +149,7 @@ export const asyncRoutes = [
       meta: { title: '学生评测结果', icon: 'result' }
     }]
   }
+
 ]
 
 const createRouter = () => new Router({
