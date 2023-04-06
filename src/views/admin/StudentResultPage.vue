@@ -9,7 +9,6 @@
     <!-- 表格组件 -->
     <el-table
       :data="tableData"
-      stripe
       style="width: 100%; height: 73vh; margin-top: 20px;"
     >
       <el-table-column
@@ -56,7 +55,7 @@
       top="70px"
       width="50%"
     >
-      <div style="height:400px;  overflow-y: auto;">
+      <div class="detailDialog sidebarGlobal" style="">
         <el-table
           :data="questionContent"
           style="width: 100%;"
@@ -137,6 +136,8 @@ export default {
 .el-dialog__body{
   padding: 0;
   overflow: hidden;
-
+}
+.detailDialog{
+  height:400px;
 }
 </style>

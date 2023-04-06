@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="dashboard-text">
       <p>所属: {{ school }}</p>
-      <el-card class="box-card" shadow="hover">
+      <el-card class="box-card sidebarGlobal" shadow="hover">
         <div slot="header" class="clearfix">
           <span>公告</span>
         </div>
@@ -101,8 +101,6 @@ export default {
 // 卡片区域
 .box-card {
   height: 400px;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 .text {
   font-size: 14px;
